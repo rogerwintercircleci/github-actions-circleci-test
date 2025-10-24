@@ -1,3 +1,5 @@
+name: Trigger CircleCI on Release
+
 on:
   release:
     types: [published]
