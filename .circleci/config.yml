@@ -34,4 +34,7 @@ workflows:
     when:
       equal: [ "release", << pipeline.parameters.GHA_Event >>]
     jobs:
-      - release
+      - release:
+          filters:
+            tags:
+              only: /.*/
