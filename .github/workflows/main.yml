@@ -10,7 +10,6 @@ jobs:
       - name: Trigger CircleCI Pipeline
         id: trigger-circleci
         uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.0.5
-        with:
-          target-branch: ${{ github.event.release.target_commitish }}
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
+          TARGET_BRANCH: ${{ github.event.release.target_commitish }}
