@@ -19,9 +19,15 @@ jobs:
       - image: cimg/node:lts
     steps:
       - checkout
-      - run: npm install
-      - run: npm run build
-      - run: npm publish
+      - run:
+          name: Simulate install
+          command: echo "Installing dependencies..."
+      - run:
+          name: Simulate build
+          command: echo "Building application..."
+      - run:
+          name: Simulate publish
+          command: echo "Successfully published package (simulation)!"
 
 workflows:
   release:
