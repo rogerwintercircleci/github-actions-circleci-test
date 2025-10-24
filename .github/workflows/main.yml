@@ -10,18 +10,25 @@ jobs:
       - name: Trigger CircleCI Pipeline
         id: trigger-circleci
         run: |
-          RESPONSE=$(curl -X POST \
+          RESPONSE=$(curl -s -X POST \
             "https://circleci.com/api/v2/project/gh/${{ github.repository }}/pipeline" \
             -H "Circle-Token: ${{ secrets.CCI_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d '{
               "branch": "${{ github.event.release.target_commitish }}",
-              "tag": "${{ github.event.release.tag_name }}",
               "parameters": {
                 "GHA_Event": "release",
                 "GHA_Actor": "${{ github.actor }}",
-                "GHA_Action": "trigger-circleci"
+                "GHA_Action": "trigger-circleci",
+                "GHA_Meta": "${{ github.event.release.tag_name }}"
               }
             }')
           echo "CircleCI API Response: $RESPONSE"
-          echo "$RESPONSE" | jq -e '.id' > /dev/null || (echo "Failed to trigger pipeline" && exit 1)
+          PIPELINE_ID=$(echo "$RESPONSE" | jq -r '.id')
+          if [ "$PIPELINE_ID" != "null" ] && [ -n "$PIPELINE_ID" ]; then
+            echo "Successfully triggered pipeline: $PIPELINE_ID"
+          else
+            echo "Failed to trigger pipeline"
+            echo "$RESPONSE"
+            exit 1
+          fi
