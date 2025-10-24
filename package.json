@@ -1,0 +1,11 @@
+{
+  "name": "github-actions-circleci-test",
+  "version": "1.0.0",
+  "description": "Test repository for GitHub Actions + CircleCI integration",
+  "main": "index.js",
+  "scripts": {
+    "install": "echo Installing dependencies...",
+    "build": "echo Building application...",
+    "publish": "echo Publishing package..."
+  }
+}
