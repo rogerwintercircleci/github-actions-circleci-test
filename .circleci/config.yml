@@ -22,9 +22,24 @@ jobs:
       - run: npm build
       - run: npm publish
 
+  debug:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Print pipeline parameters
+          command: |
+            echo "GHA_Event: << pipeline.parameters.GHA_Event >>"
+            echo "GHA_Actor: << pipeline.parameters.GHA_Actor >>"
+            echo "GHA_Action: << pipeline.parameters.GHA_Action >>"
+
 workflows:
   release:
     when:
       equal: [ "release", << pipeline.parameters.GHA_Event >>]
     jobs:
       - release
+
+  debug-workflow:
+    jobs:
+      - debug
